@@ -1,7 +1,7 @@
 import { Route, Switch } from "react-router-dom";
 
-import { Page2 } from "../Page2";
 import { Page1Routes } from "./Page1Routes";
+import { Page2Routes } from "./Page2Routes";
 // {/* リンクで指定したパスが来た時にコンポーネントを振り分ける処理 */}
 // {/* propsの中のmatchにurl: "page1"が入っているので取り出して使う */}
 export const Router = () => {
@@ -23,9 +23,22 @@ export const Router = () => {
           </Switch>
         )}
       />
-      <Route path="/page2">
-        <Page2 />
-      </Route>
+      <Route
+        path="/page2"
+        render={({ match: { url } }) => (
+          <Switch>
+            {Page2Routes.map((route) => (
+              <Route
+                key={route.path}
+                exact={route.exact}
+                path={`${url}${route.path}`}
+              >
+                {route.children}
+              </Route>
+            ))}
+          </Switch>
+        )}
+      />
     </Switch>
   );
 };
